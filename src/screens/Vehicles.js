@@ -27,140 +27,121 @@ const Vehicles = () => {
     setSelectedCategory(category);
   };
 
-  const cars = [
-    {
-      category: 'Automatic',
-      image: require('../assets/bike1.png'),
-      price: '20 RS/S',
-      kw: '10,9',
-      description: 'Automatic Car',
-    },
-    {
-      category: 'Manual',
-      image: require('../assets/bike2.png'),
-      price: '20 RS/S',
-      kw: '10,9',
-      description: 'Manual Car',
-    },
-    {
-      category: 'Electric',
-      image: require('../assets/car1.png'),
-      price: '283 KW/PS',
-      kw: '10,9',
-      description: 'Electric Car',
-    },
-  ];
-
-//   const renderCars = () => {
-//     return cars
-//       .filter(car => car.category === selectedCategory)
-//       .map((car, index) => (
-//         <View key={index} style={styles.carContainer}>
-//           <Image source={car.image} style={styles.carImage} />
-//           <Text style={styles.price}>{car.price}</Text>
-//           <Text style={styles.kw}>{car.kw}</Text>
-//           <TouchableOpacity
-//             style={styles.bookNowButton}
-//             onPress={() => console.log('Book Now pressed')}>
-//             <Text style={styles.bookNowText}>Book Now</Text>
-//           </TouchableOpacity>
-//         </View>
-//       ));
-//   };
-
   return (
     <View style={styles.container}>
-      {/* header icons */}
-        <Header
+      {/* Header icons */}
+      <Header
         backIconSource={left_arrow}
         filterIconSource={filter}
         onBackPress={() => navigation.navigate('MyDrawerScreen')}
         onFilterPress={() => console.log('Filter pressed')}
       />
-      
 
-      <View style={{marginLeft: 30}}>
-        <Text style={{fontWeight: '500', fontSize: 17, color: 'black'}}>
-          Select a Bike
-        </Text>
-      </View>
+      <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+        <View style={{marginLeft: 30}}>
+          <Text style={{fontWeight: '500', fontSize: 17, color: 'black'}}>
+            Select a Bike
+          </Text>
+        </View>
 
-      {/* Categories containers */}
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={styles.categoryContainer}
-        showsHorizontalScrollIndicator={false}>
-        {/* <View style={styles.categoryContainer}> */}
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === 'Automatic' && styles.activeCategory,
-            styles.activeText,
-          ]}
-          onPress={() => handleCategoryPress('Automatic')}>
-          <Text style={styles.categoryButtonText}>Automatic</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === 'Electric' && styles.activeCategory,
-          ]}
-          onPress={() => handleCategoryPress('Electric')}>
-          <Text style={styles.categoryButtonText}>Electric</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === 'Manual' && styles.activeCategory,
-          ]}
-          onPress={() => handleCategoryPress('Manual')}>
-          <Text style={styles.categoryButtonText}>Manual</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === 'Automatic' && styles.activeCategory,
-            styles.activeText,
-          ]}
-          onPress={() => handleCategoryPress('Automatic')}>
-          <Text style={styles.categoryButtonText}>Automatic</Text>
-        </TouchableOpacity>
+        {/* Categories containers */}
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={styles.categoryContainer}
+          showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity
+            style={[
+              styles.categoryButton,
+              selectedCategory === 'Automatic' && styles.activeCategory,
+              styles.activeText,
+            ]}
+            onPress={() => handleCategoryPress('Automatic')}>
+            <Text style={styles.categoryButtonText}>Automatic</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.categoryButton,
+              selectedCategory === 'Electric' && styles.activeCategory,
+            ]}
+            onPress={() => handleCategoryPress('Electric')}>
+            <Text style={styles.categoryButtonText}>Electric</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.categoryButton,
+              selectedCategory === 'Manual' && styles.activeCategory,
+            ]}
+            onPress={() => handleCategoryPress('Manual')}>
+            <Text style={styles.categoryButtonText}>Manual</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.categoryButton,
+              selectedCategory === 'xyz' && styles.activeCategory,
+              styles.activeText,
+            ]}
+            onPress={() => handleCategoryPress('xyz')}>
+            <Text style={styles.categoryButtonText}>xyz</Text>
+          </TouchableOpacity>
+        </ScrollView>
 
-        {/* </View> */}
+        {/* Bikes views */}
+        <View style={{padding: 10, flexDirection: 'row'}}>
+          
+          <View style={{flexDirection:'column'}}>
+          <BikeCard
+            style={styles.bikeContainer}
+            imageSource={bike1}
+            price="20/-RS"
+            rating="10.9"
+            onPress={() =>
+              navigation.navigate('VehicleDetails', {
+                image: bike1,
+                price: '20/-RS',
+                rating: '10.9',
+              })
+            }
+          />
+        
+        {/* <TouchableOpacity style={{}}>
+        <Text style={{backgroundColor:'#D4D4D4',alignSelf:'center',justifyContent:'center'}}>Book Now</Text>
+        </TouchableOpacity> */}
+          </View>
+          
+
+          <BikeCard
+            style={styles.bikeContainer}
+            imageSource={bike2}
+            price="20/-RS"
+            rating="10.9"
+            onPress={() =>
+              navigation.navigate('VehicleDetails', {
+                image: bike2,
+                price: '20/-RS',
+                rating: '10.9',
+              })
+            }
+          />
+        </View>
+
+        {/* Cars Views */}
+        <View>
+          <CarCard
+            style={styles.carContainer}
+            power="283 KW/PS"
+            rating="10.9"
+            imageSource={car1}
+            onBookNowPress={() =>
+              navigation.navigate('VehicleDetails', {
+                image: car1,
+                power: '283 KW/PS',
+                rating: '10.9',
+              })
+            }
+          />
+        </View>
       </ScrollView>
-
-      {/* Bikes views */}
-      <View style={{padding: 10, flexDirection: 'row'}}>
-        <BikeCard
-          style={styles.bikeContainer}
-          imageSource={bike1}
-          price="20/-RS"
-          rating="10.9"
-          onPress={() => navigation.navigate('VehicleDetails')}
-        />
-        <BikeCard
-          style={styles.bikeContainer}
-          imageSource={bike2}
-          price="20/-RS"
-          rating="10.9"
-          onPress={() => console.log('Bike 2 pressed')}
-        />
-      </View>
-
-      {/* Cars Views */}
-      <View>
-        <CarCard
-          style={styles.carContainer}
-          power="283 KW/PS"
-          rating="10.9"
-          imageSource={car1}
-          onBookNowPress={() => console.log('Book Now pressed')}
-        />
-      </View>
-
-      {/* <ScrollView style={styles.carsContainer}></ScrollView> */}
-
-      <BottomNavBar/>
+      <BottomNavBar />
     </View>
   );
 };
@@ -204,7 +185,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeCategory: {
-    // backgroundColor: 'black',
+    backgroundColor: '#D4D4D4',
   },
   categoryButtonText: {
     color: '#000',

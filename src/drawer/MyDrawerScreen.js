@@ -3,6 +3,7 @@ import {
   Animated,
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -295,102 +296,101 @@ const MyDrawerScreen = () => {
             })}
           </View>
 
-          {/* Main section */}
-          <View style={styles.mainSection}>
-            <View style={{width: 250}}>
-              <Text style={{fontSize: 30, fontWeight: 'bold', color: 'black'}}>
-                The Fastest Rental Service
-              </Text>
-              <Text>Get Your Bikes at your place</Text>
-              <TouchableOpacity>
-                <View style={styles.buttonStyle}>
-                  <Text
-                    style={{
-                      width: 100,
-                      borderRadius: 14,
-                      justifyContent: 'center',
-                      textAlign: 'center',
-                      padding: 8,
-                    }}>
-                    Book Now
-                  </Text>
+          <ScrollView style={{marginTop: 10}}>
+            {/* Main section */}
+            <View style={styles.mainSection}>
+              <View style={{width: 250}}>
+                <Text
+                  style={{fontSize: 30, fontWeight: 'bold', color: 'black'}}>
+                  The Fastest Rental Service
+                </Text>
+                <Text>Get Your Bikes at your place</Text>
+                <TouchableOpacity>
+                  <View style={styles.buttonStyle}>
+                    <Text
+                      style={{
+                        width: 100,
+                        borderRadius: 14,
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        padding: 8,
+                      }}>
+                      Book Now
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <Image
+                  source={bike_img}
+                  resizeMode="contain"
+                  style={{width: 160, height: 170, transform: [{scale: 1.9}]}}
+                />
+              </View>
+            </View>
+
+            {/* Pickup and drop off */}
+            <View style={styles.pickupDropoff}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text>PickUp</Text>
+                <View style={{flexDirection: 'row', gap: 10}}>
+                  <TouchableOpacity style={styles.pickupDate}>
+                    <Text style={{color: '#5F1717'}}>Date</Text>
+                    <Image
+                      source={calendar}
+                      resizeMode="cover"
+                      style={{width: 20, height: 20, marginLeft: 5}}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.pickupTime}>
+                    <Text>Time </Text>
+                    <Image
+                      source={clock}
+                      resizeMode="contain"
+                      style={{width: 20, height: 20}}
+                    />
+                  </TouchableOpacity>
                 </View>
+              </View>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{marginTop: 5}}>DropOff</Text>
+                <View style={{flexDirection: 'row', gap: 10}}>
+                  <TouchableOpacity style={styles.dropoffDate}>
+                    <Text style={{color: '#5F1717'}}>Date</Text>
+                    <Image
+                      source={calendar}
+                      resizeMode="cover"
+                      style={{width: 20, height: 20, marginLeft: 5}}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.dropoffTime}>
+                    <Text>Time</Text>
+                    <Image
+                      source={clock}
+                      resizeMode="contain"
+                      style={{width: 20, height: 20}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* added navigation functionality to navigate to choosevehicle */}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Vehicles')}
+                style={styles.searchBox}>
+                <Text>Search Now</Text>
+                <Image source={small_bike} style={{width: 30, height: 30}} />
               </TouchableOpacity>
             </View>
-            <View>
-              <Image
-                source={bike_img}
-                resizeMode="contain"
-                style={{width: 160, height: 170, transform: [{scale: 1.9}]}}
-              />
-            </View>
-          </View>
 
+            <Text style={{fontWeight: 'bold', textAlign: 'center',padding:10,fontSize:17}}>
+              Want a Bike at Your Doorstep?
+            </Text>
 
-          {/* Pickup and drop off */}
-          <View style={styles.pickupDropoff}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text>PickUp</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <TouchableOpacity style={styles.pickupDate}>
-                  <Text style={{color: '#5F1717'}}>Date</Text>
-                  <Image
-                    source={calendar}
-                    resizeMode="cover"
-                    style={{width: 20, height: 20, marginLeft: 5}}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.pickupTime}>
-                  <Text>Time </Text>
-                  <Image
-                    source={clock}
-                    resizeMode="contain"
-                    style={{width: 20, height: 20}}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={{marginTop: 5}}>DropOff</Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <TouchableOpacity style={styles.dropoffDate}>
-                  <Text style={{color: '#5F1717'}}>Date</Text>
-                  <Image
-                    source={calendar}
-                    resizeMode="cover"
-                    style={{width: 20, height: 20, marginLeft: 5}}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.dropoffTime}>
-                  <Text>Time</Text>
-                  <Image
-                    source={clock}
-                    resizeMode="contain"
-                    style={{width: 20, height: 20}}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/* added navigation functionality to navigate to choosevehicle */}
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Vehicles')}
-              style={styles.searchBox}>
-              <Text>Search Now</Text>
-              <Image source={small_bike} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-          </View>
-
-         
-
-          <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
-            Want a Bike at Your Doorstep?
-          </Text>
-
-          {/* custom bottom navigation */}
-          {/* <View
+            {/* custom bottom navigation */}
+            {/* <View
             style={{
               width: '100%',
               height: 70,
@@ -454,11 +454,12 @@ const MyDrawerScreen = () => {
               <Image source={profile} style={{width: 25, height: 25}} />
             </TouchableOpacity>
           </View> */}
-          <BottomNavBar />
-
-
+          </ScrollView>
+          
+      <BottomNavBar />
         </Animated.View>
       </Animated.View>
+
     </SafeAreaView>
   );
 };
@@ -590,9 +591,9 @@ const styles = StyleSheet.create({
     // elevation: 1,
     // marginTop: 14,
     // backgroundColor: 'white',
-   borderTopStartRadius:24,
-   borderTopEndRadius:24,
-   borderBottomEndRadius:24,
+    borderTopStartRadius: 24,
+    borderTopEndRadius: 24,
+    borderBottomEndRadius: 24,
     width: 100,
   },
 });
