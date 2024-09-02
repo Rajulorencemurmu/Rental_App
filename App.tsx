@@ -17,9 +17,11 @@ const App = () => {
   return (
     <NavigationContainer>
      <Stack.Navigator
+     initialRouteName='InitialScreen'
      screenOptions={{
       headerShown:false
      }}>
+       <Stack.Screen name="InitialScreen" component={InitialScreen} />
      <Stack.Screen name="MyDrawerScreen" component={MyDrawerScreen} />
      <Stack.Screen name="SearchScreen" component={SearchScreen} />
   <Stack.Screen name="ProfileScreen" component={ProfileScreen} />

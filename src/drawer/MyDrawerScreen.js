@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {
+  Alert,
   Animated,
   Image,
   SafeAreaView,
@@ -9,8 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import profile from '../assets/profile.png';
-// Tab ICons...
 import home from '../assets/home.png';
 import search from '../assets/search.png';
 import notifications from '../assets/bell.png';
@@ -42,10 +41,13 @@ const small_bike = require('../assets/small_bike.png');
 import {Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 const windowHeight = Dimensions.get('window').height;
-
 import Tabs from '../navigation/tabs';
 import BottomNavBar from '../navigation/BottomNavBar';
 import {UserData} from '../screens/UserData';
+
+import {TimeDatePicker, Modes} from 'react-native-time-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 const trimName = (name, maxLength = 8) => {
   return name.length > maxLength ? name.substring(0, maxLength) + '...' : name;
@@ -97,6 +99,43 @@ const TabButton = (currentTab, setCurrentTab, title, image) => {
 };
 
 const MyDrawerScreen = () => {
+  const [pickupDate, setPickupDate] = useState(null);
+  const [pickupTime, setPickupTime] = useState(null);
+  const [dropoffDate, setDropoffDate] = useState(null);
+  const [dropoffTime, setDropoffTime] = useState(null);
+
+  const [showPickupDatePicker, setShowPickupDatePicker] = useState(false);
+  const [showPickupTimePicker, setShowPickupTimePicker] = useState(false);
+  const [showDropoffDatePicker, setShowDropoffDatePicker] = useState(false);
+  const [showDropoffTimePicker, setShowDropoffTimePicker] = useState(false);
+
+  const handlePickupDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || pickupDate;
+    setShowPickupDatePicker(Platform.OS === 'ios');
+    setPickupDate(currentDate);
+  };
+
+  const handlePickupTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || pickupTime;
+    setShowPickupTimePicker(Platform.OS === 'ios');
+    setPickupTime(currentTime);
+  };
+
+  const handleDropoffDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || dropoffDate;
+    setShowDropoffDatePicker(Platform.OS === 'ios');
+    if(pickupDate && moment(currentDate).isBefore(pickupDate,'day'))
+      Alert.alert("Invalid Date", "Drop-off date cannot be earlier than the pick-up date.")
+    setDropoffDate(currentDate);
+
+  };
+
+  const handleDropoffTimeChange = (event, selectedTime) => {
+    const currentTime = selectedTime || dropoffTime;
+    setShowDropoffTimePicker(Platform.OS === 'ios');
+    setDropoffTime(currentTime);
+  };
+
   const [currentTab, setCurrentTab] = useState('Home');
   // To get the curretn Status of menu ...
   const [showMenu, setShowMenu] = useState(false);
@@ -329,27 +368,45 @@ const MyDrawerScreen = () => {
               </View>
             </View>
 
+
+
             {/* Pickup and drop off */}
             <View style={styles.pickupDropoff}>
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text>PickUp</Text>
                 <View style={{flexDirection: 'row', gap: 10}}>
-                  <TouchableOpacity style={styles.pickupDate}>
-                    <Text style={{color: '#5F1717'}}>Date</Text>
-                    <Image
-                      source={calendar}
-                      resizeMode="cover"
-                      style={{width: 20, height: 20, marginLeft: 5}}
-                    />
+                  <TouchableOpacity
+                    style={styles.pickupDate}
+                    onPress={() => setShowPickupDatePicker(true)}>
+                    <Text style={{color: '#5F1717'}}>
+                      {pickupDate
+                        ? moment(pickupDate).format('MMM DD, YYYY')
+                        : 'Date'}
+                    </Text>
+                    {!pickupDate && (
+                      <Image
+                        source={calendar}
+                        resizeMode="cover"
+                        style={{width: 20, height: 20, marginLeft: 5}}
+                      />
+                    )}
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.pickupTime}>
-                    <Text>Time </Text>
-                    <Image
-                      source={clock}
-                      resizeMode="contain"
-                      style={{width: 20, height: 20}}
-                    />
+                  <TouchableOpacity
+                    style={styles.pickupTime}
+                    onPress={() => setShowPickupTimePicker(true)}>
+                    <Text>
+                      {pickupTime
+                        ? moment(pickupTime).format('hh:mm A')
+                        : 'Time'}
+                    </Text>
+                    {!pickupTime && (
+                      <Image
+                        source={calendar}
+                        resizeMode="cover"
+                        style={{width: 20, height: 20, marginLeft: 5}}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>
@@ -357,26 +414,77 @@ const MyDrawerScreen = () => {
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={{marginTop: 5}}>DropOff</Text>
                 <View style={{flexDirection: 'row', gap: 10}}>
-                  <TouchableOpacity style={styles.dropoffDate}>
-                    <Text style={{color: '#5F1717'}}>Date</Text>
-                    <Image
-                      source={calendar}
-                      resizeMode="cover"
-                      style={{width: 20, height: 20, marginLeft: 5}}
-                    />
+                  <TouchableOpacity
+                    style={styles.dropoffDate}
+                    onPress={() => setShowDropoffDatePicker(true)}>
+                    <Text style={{color: '#5F1717'}}>
+                      {dropoffDate
+                        ? moment(dropoffDate).format('MMM DD, YYYY')
+                        : 'Date'}
+                    </Text>
+                    {!pickupDate && (
+                      <Image
+                        source={calendar}
+                        resizeMode="cover"
+                        style={{width: 20, height: 20, marginLeft: 5}}
+                      />
+                    )}
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.dropoffTime}>
-                    <Text>Time</Text>
-                    <Image
-                      source={clock}
-                      resizeMode="contain"
-                      style={{width: 20, height: 20}}
-                    />
+                  <TouchableOpacity
+                    style={styles.dropoffTime}
+                    onPress={() => setShowDropoffTimePicker(true)}>
+                    <Text>
+                      {dropoffTime
+                        ? moment(dropoffTime).format('hh:mm A')
+                        : 'Time'}
+                    </Text>
+                    {!pickupDate && (
+                      <Image
+                        source={calendar}
+                        resizeMode="cover"
+                        style={{width: 20, height: 20, marginLeft: 5}}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>
 
-              {/* added navigation functionality to navigate to choosevehicle */}
+              {/* DateTime Pickers */}
+              {showPickupDatePicker && (
+                <DateTimePicker
+                  value={pickupDate || new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={handlePickupDateChange}
+                />
+              )}
+              {showPickupTimePicker && (
+                <DateTimePicker
+                  value={pickupTime || new Date()}
+                  mode="time"
+                  display="default"
+                  onChange={handlePickupTimeChange}
+                />
+              )}
+              {showDropoffDatePicker && (
+                <DateTimePicker
+                  value={dropoffDate || new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={handleDropoffDateChange}
+                  minimumDate={pickupDate}
+                />
+              )}
+              {showDropoffTimePicker && (
+                <DateTimePicker
+                  value={dropoffTime || new Date()}
+                  mode="time"
+                  display="default"
+                  onChange={handleDropoffTimeChange}
+                />
+              )}
+
+              {/* Navigate to Vehicles */}
               <TouchableOpacity
                 onPress={() => navigation.navigate('Vehicles')}
                 style={styles.searchBox}>
@@ -385,7 +493,13 @@ const MyDrawerScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <Text style={{fontWeight: 'bold', textAlign: 'center',padding:10,fontSize:17}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                textAlign: 'center',
+                padding: 10,
+                fontSize: 17,
+              }}>
               Want a Bike at Your Doorstep?
             </Text>
 
@@ -455,11 +569,10 @@ const MyDrawerScreen = () => {
             </TouchableOpacity>
           </View> */}
           </ScrollView>
-          
-      <BottomNavBar />
+
+          <BottomNavBar />
         </Animated.View>
       </Animated.View>
-
     </SafeAreaView>
   );
 };
@@ -508,6 +621,7 @@ const styles = StyleSheet.create({
     marginTop: -10,
     flexDirection: 'row',
     backgroundColor: '#FFFFFFE5',
+    width: 'auto',
   },
   pickupTime: {
     // borderWidth: 1,
@@ -520,6 +634,7 @@ const styles = StyleSheet.create({
     marginTop: -10,
     flexDirection: 'row',
     backgroundColor: '#e7e7e7',
+    width: 'auto',
   },
   dropoffDate: {
     // borderWidth: 1,
@@ -530,12 +645,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#fff',
+    width: 'auto',
   },
   dropoffTime: {
     color: '#7B7B7B1A',
     // borderWidth: 1,
     borderRadius: 10,
-    width: 70,
+    width: 'auto',
     padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
